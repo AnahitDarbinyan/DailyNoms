@@ -12,8 +12,7 @@ struct RadialBarView: View {
     var color: Color
     var lineWidth: CGFloat
     var radius: CGFloat
-    
-    
+
     var body: some View {
         Circle()
             .stroke(color.opacity(0.1), lineWidth: lineWidth)

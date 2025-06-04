@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1187ACC82DF08B43009B5C73 /* SectionedQuery in Frameworks */ = {isa = PBXBuildFile; productRef = 1187ACC72DF08B43009B5C73 /* SectionedQuery */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		11B426EB2DDF6BC00009AE61 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1187ACC82DF08B43009B5C73 /* SectionedQuery in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1187ACC62DF08B43009B5C73 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		11B426D42DDF6BBF0009AE61 = {
 			isa = PBXGroup;
 			children = (
 				11B426DF2DDF6BBF0009AE61 /* DailyNoms */,
 				11B426ED2DDF6BC00009AE61 /* DailyNomsTests */,
 				11B426F72DDF6BC00009AE61 /* DailyNomsUITests */,
+				1187ACC62DF08B43009B5C73 /* Frameworks */,
 				11B426DE2DDF6BBF0009AE61 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 			);
 			name = DailyNoms;
 			packageProductDependencies = (
+				1187ACC72DF08B43009B5C73 /* SectionedQuery */,
 			);
 			productName = DailyNoms;
 			productReference = 11B426DD2DDF6BBF0009AE61 /* DailyNoms.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = 11B426D42DDF6BBF0009AE61;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1187ACC52DF08B17009B5C73 /* XCRemoteSwiftPackageReference "swiftdata-sectionedquery" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 11B426DE2DDF6BBF0009AE61 /* Products */;
 			projectDirPath = "";
@@ -552,6 +569,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1187ACC52DF08B17009B5C73 /* XCRemoteSwiftPackageReference "swiftdata-sectionedquery" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/beechtom/swiftdata-sectionedquery";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1187ACC72DF08B43009B5C73 /* SectionedQuery */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1187ACC52DF08B17009B5C73 /* XCRemoteSwiftPackageReference "swiftdata-sectionedquery" */;
+			productName = SectionedQuery;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 11B426D52DDF6BBF0009AE61 /* Project object */;
 }

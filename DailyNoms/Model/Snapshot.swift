@@ -17,11 +17,12 @@ class Snapshot: Identifiable {
         case veryActive
         case extraActive
     }
+
     var weight: Double
     var height: Double
     var activityLevel: ActivityLevel
     @Attribute(.unique) var date: Date = Date()
-    
+
     var user: User?
 
     init(weight: Double, height: Double, activityLevel: ActivityLevel = .sedentary, user: User?) {

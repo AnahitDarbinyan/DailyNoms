@@ -12,10 +12,9 @@ struct CalorieProgressView: View {
     var current: Int
     var color = Color.green
     var body: some View {
-        
-        RadialBarView(progress: Double(remaining)/Double(remaining + current), color: color, lineWidth: 15, radius: 100)
-            .overlay{
-                VStack{
+        RadialBarView(progress: Double(remaining) / Double(remaining + current), color: color, lineWidth: 15, radius: 100)
+            .overlay {
+                VStack {
                     Text("\(remaining)")
                         .font(.system(size: 50, weight: .bold, design: .rounded))
                         .foregroundStyle(color)
@@ -24,9 +23,7 @@ struct CalorieProgressView: View {
                         .foregroundStyle(color.opacity(0.6))
                 }
             }
-        
     }
-    
 }
 
 #Preview {

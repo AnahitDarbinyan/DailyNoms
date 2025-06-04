@@ -13,4 +13,9 @@ extension Date {
         let now = Date()
         return calendar.date(bySettingHour: 6, minute: 0, second: 0, of: now)!
     }
+
+    var morning: Date {
+        let calendar = Calendar.current
+        return calendar.date(bySettingHour: 6, minute: 0, second: 0, of: self)!
+    }
 }

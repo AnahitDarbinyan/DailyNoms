@@ -10,10 +10,9 @@ import SwiftUI
 struct CalorieFields: View {
     @Binding var dish: String
     @Binding var calories: Int
-    
-    
+
     var body: some View {
-        Form{
+        Form {
             LabeledContent {
                 TextField("Dish", text: $dish)
             } label: {
@@ -29,5 +28,5 @@ struct CalorieFields: View {
 }
 
 #Preview {
-    CalorieFields(dish:.constant(""), calories: .constant(0))
+    CalorieFields(dish: .constant(""), calories: .constant(0))
 }

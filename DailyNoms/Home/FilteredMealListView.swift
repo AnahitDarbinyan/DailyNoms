@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct FilteredMealListView: View {
     var kind: Meal.Kind
@@ -37,8 +37,7 @@ struct FilteredMealListView: View {
         .navigationTitle(kind.rawValue.capitalized)
     }
 }
+
 #Preview {
     FilteredMealListView(kind: .breakfast)
 }
-
-

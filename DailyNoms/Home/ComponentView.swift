@@ -12,13 +12,12 @@ struct ComponentView: View {
     var current: Int
     var total: Int
     var color: Color
-    
-    
+
     var body: some View {
         HStack {
-            RadialBarView(progress: Double(current)/Double(total), color: color, lineWidth: 7, radius: 17.5)
-            
-            VStack(alignment: .leading){
+            RadialBarView(progress: Double(current) / Double(total), color: color, lineWidth: 7, radius: 17.5)
+
+            VStack(alignment: .leading) {
                 Text(title)
                     .font(.system(size: 15, weight: .bold, design: .rounded))
                     .foregroundStyle(color)

@@ -6,21 +6,21 @@
 //
 
 /*
-User
- │
- ├───▶ Meal ───▶ Dish
- │
- ├───▶ MealReminder
- │
- └───▶ Snapshot(weight, height, activity)
-*/
+ User
+  │
+  ├───▶ Meal ───▶ Dish
+  │
+  ├───▶ MealReminder
+  │
+  └───▶ Snapshot(weight, height, activity)
+ */
 
 import Foundation
 import SwiftData
 
 @Model
 class User {
-    enum Gender: String, CaseIterable,  Codable {
+    enum Gender: String, CaseIterable, Codable {
         case male
         case female
     }
@@ -29,12 +29,11 @@ class User {
     var age: Int
     var gender: Gender
 
-    
     @Relationship var mealEntries: [Meal] = []
     @Relationship var mealReminders: [MealReminder] = []
     @Relationship(inverse: \Snapshot.user) var snapshots: [Snapshot] = []
-    var snapshot: Snapshot{ snapshots.sorted{$0.date > $1.date}.first!}
-    
+    var snapshot: Snapshot { snapshots.sorted { $0.date > $1.date }.first! }
+
     init(name: String, age: Int, gender: Gender) {
         self.name = name
         self.age = age

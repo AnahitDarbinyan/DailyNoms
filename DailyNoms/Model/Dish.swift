@@ -10,7 +10,6 @@ import SwiftData
 
 @Model
 public class Dish: Identifiable {
-
     @Attribute(.unique) public var id: UUID = UUID()
     var name: String
     var calories: Int
@@ -27,10 +26,10 @@ public class Dish: Identifiable {
     var vitamins: [String: Double]?
     var minerals: [String: Double]?
     var servingSize: String?
-    
+
     var mealEntries: [Meal] = []
 
-    init(id: UUID, name: String, calories: Int, user: User? = nil, fat: Double? = nil, saturatedFat: Double? = nil, cholesterol: Double? = nil, sodium: Double? = nil, carbs: Double? = nil, fiber: Double? = nil, sugar: Double? = nil, protein: Double? = nil, vitamins: [String : Double]? = nil, minerals: [String : Double]? = nil, servingSize: String? = nil, mealEntries: [Meal]) {
+    init(id: UUID, name: String, calories: Int, user: User? = nil, fat: Double? = nil, saturatedFat: Double? = nil, cholesterol: Double? = nil, sodium: Double? = nil, carbs: Double? = nil, fiber: Double? = nil, sugar: Double? = nil, protein: Double? = nil, vitamins: [String: Double]? = nil, minerals: [String: Double]? = nil, servingSize: String? = nil, mealEntries: [Meal]) {
         self.id = id
         self.name = name
         self.calories = calories
@@ -49,4 +48,3 @@ public class Dish: Identifiable {
         self.mealEntries = mealEntries
     }
 }
-

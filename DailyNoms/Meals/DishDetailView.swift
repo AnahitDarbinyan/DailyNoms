@@ -9,18 +9,16 @@ import SwiftUI
 
 struct DishDetailView: View {
     var dish: Dish
-    
+
     var body: some View {
-        
         VStack(alignment: .leading, spacing: 16) {
-            
-            Text("Dish Details")
+            Text(dish.name)
                 .font(.largeTitle)
                 .bold()
-            
+
             Group {
                 Text("Calories: \(dish.calories)")
-                
+
                 if let fat = dish.fat {
                     Text("Fat: \(String(format: "%.1f", fat)) g")
                 }
@@ -47,7 +45,7 @@ struct DishDetailView: View {
                 }
             }
             .font(.title3)
-            
+
             if let servingSize = dish.servingSize {
                 Text("Serving Size: \(servingSize)")
                     .font(.headline)
@@ -82,6 +80,7 @@ struct DishDetailView: View {
         }
     }
 }
+
 #Preview {
     let sampleDish = Dish(
         id: UUID(),
@@ -96,6 +95,6 @@ struct DishDetailView: View {
         sugar: 5.0,
         protein: 30.0,
         vitamins: ["Vitamin A": 20.0, "Vitamin C": 15.0], minerals: ["Calcium": 8.0, "Iron": 10.0], servingSize: "1 bowl", mealEntries: [],
-)
+    )
     DishDetailView(dish: sampleDish)
 }

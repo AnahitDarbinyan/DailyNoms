@@ -5,10 +5,10 @@
 //  Created by Anahit Darbinyan on 26.05.25.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
-enum Screen{
+enum Screen {
     case name
     case age
     case weight
@@ -16,7 +16,6 @@ enum Screen{
     case gender
     case activitylevel
 }
-
 
 struct UserInfoFormView: View {
     @State private var screen: Screen = .name
@@ -27,15 +26,14 @@ struct UserInfoFormView: View {
     @State var gender = User.Gender.female
     @State var activitylevel = Snapshot.ActivityLevel.extraActive
     @Environment(\.modelContext) var modelContext: ModelContext
-    
+
     var body: some View {
         VStack {
             switch screen {
-                
             case .name:
                 LabeledContent {
                     TextField("Name", text: $name)
-                }label: {
+                } label: {
                     Text("Name")
                 }
                 Button(action: {
@@ -46,7 +44,7 @@ struct UserInfoFormView: View {
             case .age:
                 LabeledContent {
                     TextField("Age", value: $age, format: .number)
-                }label: {
+                } label: {
                     Text("Age")
                 }
                 Button(action: {
@@ -58,11 +56,10 @@ struct UserInfoFormView: View {
                 WeightPickerView(onNext: {
                     screen = .height
                 })
-
             case .height:
                 LabeledContent {
                     TextField("Height", value: $height, format: .number)
-                }label: {
+                } label: {
                     Text("Height")
                 }
                 Button(action: {
@@ -73,11 +70,11 @@ struct UserInfoFormView: View {
             case .gender:
                 LabeledContent {
                     Picker("Gender", selection: $gender) {
-                        ForEach(User.Gender.allCases, id: \.self) {gender in
+                        ForEach(User.Gender.allCases, id: \.self) { gender in
                             Text(gender.rawValue).tag(gender)
                         }
                     }
-                }label: {
+                } label: {
                     Text("Gender")
                 }
                 Button(action: {
@@ -88,11 +85,11 @@ struct UserInfoFormView: View {
             case .activitylevel:
                 LabeledContent {
                     Picker("Activity Level", selection: $activitylevel) {
-                        ForEach(Snapshot.ActivityLevel.allCases, id: \.self) {activitylevel in
+                        ForEach(Snapshot.ActivityLevel.allCases, id: \.self) { activitylevel in
                             Text(activitylevel.rawValue).tag(activitylevel)
                         }
                     }
-                }label: {
+                } label: {
                     Text("Activity Level")
                 }
                 Button(action: {
@@ -103,9 +100,10 @@ struct UserInfoFormView: View {
             }
         }
     }
+
     private func saveUserInfo() {
         let user = User(name: name, age: age, gender: gender)
-        let snapshot = Snapshot(weight: weight, height: height, activityLevel:  activitylevel, user: nil)
+        let snapshot = Snapshot(weight: weight, height: height, activityLevel: activitylevel, user: nil)
         modelContext.insert(snapshot)
         user.snapshots.append(snapshot)
         modelContext.insert(user)
@@ -116,5 +114,3 @@ struct UserInfoFormView: View {
 #Preview {
     UserInfoFormView()
 }
-
- 
