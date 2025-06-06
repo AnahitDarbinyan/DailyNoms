@@ -14,17 +14,17 @@ struct WeightPickerView: View {
 
     var body: some View {
         VStack(spacing: 15) {
-            Image("Weightpic")
+            Image("WeightPage")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 350, height: 350)
+                .frame(width: 440, height: 400)
                 .padding(.top, 40)
 
             Spacer(minLength: 0)
 
             Text("Weight")
                 .font(.system(size: 34, weight: .bold, design: .serif))
-                .foregroundStyle(Color("Purple"))
+                .foregroundStyle(Color("MidnightPurple"))
 
             Text("\(getWeight()) Kg")
                 .font(.system(size: 24, weight: .bold, design: .rounded))
@@ -78,13 +78,13 @@ struct WeightPickerView: View {
             Button(action: {
                 onNext()
             }, label: {
-                Text("Next")
+                Text("Continue")
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 60)
-                    .background(Color("Purple"))
+                    .background(Color("MidnightPurple"))
                     .clipShape(Capsule())
                     .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
                     .shadow(color: Color.purple.opacity(0.2), radius: 10, x: 0, y: 2)
@@ -95,7 +95,7 @@ struct WeightPickerView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             Circle()
-                .fill(Color(.purple))
+                .fill(Color("MidnightPurple"))
                 .scaleEffect(1.5)
                 .offset(y: -getRect().height / 2.4)
         )

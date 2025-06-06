@@ -5,10 +5,12 @@
 //  Created by Anahit Darbinyan on 30.05.25.
 //
 
+import SwiftData
 import SwiftUI
 
 struct DishDetailView: View {
     var dish: Dish
+    @Environment(\.modelContext) private var modelContext: ModelContext
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -78,12 +80,19 @@ struct DishDetailView: View {
                     .padding(.top, 20)
             }
         }
+        .toolbar {
+            Button {
+                dish.favorite.toggle()
+                try? modelContext.save()
+            } label: {
+                Image(systemName: dish.favorite ? "heart.fill" : "heart")
+            }
+        }
     }
 }
 
 #Preview {
     let sampleDish = Dish(
-        id: UUID(),
         name: "Grilled Chicken Salad",
         calories: 350,
         fat: 10.0,

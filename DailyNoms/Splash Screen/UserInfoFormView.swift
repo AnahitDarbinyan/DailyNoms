@@ -31,16 +31,9 @@ struct UserInfoFormView: View {
         VStack {
             switch screen {
             case .name:
-                LabeledContent {
-                    TextField("Name", text: $name)
-                } label: {
-                    Text("Name")
-                }
-                Button(action: {
+                NameInputView(onNext: {
                     screen = .age
-                }) {
-                    Text("Next")
-                }
+                })
             case .age:
                 LabeledContent {
                     TextField("Age", value: $age, format: .number)

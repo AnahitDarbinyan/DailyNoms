@@ -72,7 +72,7 @@ struct AddMealView: View {
         if let dish = dish {
             newDish = dish
         } else {
-            newDish = Dish(id: UUID(), name: newDishName, calories: calories, mealEntries: [])
+            newDish = Dish(name: newDishName, calories: calories, mealEntries: [])
             modelContext.insert(newDish)
         }
         let entry = Meal(mealtype: mealType, dishes: [newDish], user: user)

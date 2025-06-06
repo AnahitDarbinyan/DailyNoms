@@ -14,7 +14,7 @@ public class Dish: Identifiable {
     var name: String
     var calories: Int
     var user: User?
-
+    var favorite: Bool = false
     var fat: Double?
     var saturatedFat: Double?
     var cholesterol: Double?
@@ -29,8 +29,7 @@ public class Dish: Identifiable {
 
     var mealEntries: [Meal] = []
 
-    init(id: UUID, name: String, calories: Int, user: User? = nil, fat: Double? = nil, saturatedFat: Double? = nil, cholesterol: Double? = nil, sodium: Double? = nil, carbs: Double? = nil, fiber: Double? = nil, sugar: Double? = nil, protein: Double? = nil, vitamins: [String: Double]? = nil, minerals: [String: Double]? = nil, servingSize: String? = nil, mealEntries: [Meal]) {
-        self.id = id
+    init(name: String, calories: Int, user: User? = nil, fat: Double? = nil, saturatedFat: Double? = nil, cholesterol: Double? = nil, sodium: Double? = nil, carbs: Double? = nil, fiber: Double? = nil, sugar: Double? = nil, protein: Double? = nil, vitamins: [String: Double]? = nil, minerals: [String: Double]? = nil, servingSize: String? = nil, mealEntries: [Meal] = []) {
         self.name = name
         self.calories = calories
         self.user = user

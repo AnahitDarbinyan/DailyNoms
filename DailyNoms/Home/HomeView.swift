@@ -34,12 +34,13 @@ struct HomeView: View {
                         date = Calendar.current.date(byAdding: .day, value: -1, to: date)!
                     } label: {
                         Image(systemName: "chevron.left")
+                            .offset(x: 15, y: 10)
                     }
 
                     HStack {
-                        Text(date.formatted(.relative(presentation: .named, unitsStyle: .narrow)))
+                        Text(date.relative)
                             .font(.subheadline)
-                        // image
+                        Image(systemName: "calendar")
                     }
                     .frame(maxWidth: .infinity)
 
@@ -47,6 +48,7 @@ struct HomeView: View {
                         date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
                     } label: {
                         Image(systemName: "chevron.right")
+                            .offset(x: -15, y: 10)
                     }
                 }
 
@@ -77,4 +79,5 @@ struct HomeView: View {
     NavigationStack {
         HomeView()
     }
+    .modelContainer(for: User.self)
 }

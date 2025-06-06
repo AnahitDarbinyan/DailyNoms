@@ -35,8 +35,12 @@ extension Meal.Kind {
 }
 
 struct MealCategoryView: View {
+    @Query var users: [User]
     @Query var allMeals: [Meal]
     var lineWidth: CGFloat = 10
+    var user: User {
+        users.first ?? User(name: "Preview", age: 25, gender: .female)
+    }
 
     func calories(for type: Meal.Kind) -> Int {
         allMeals
@@ -51,42 +55,55 @@ struct MealCategoryView: View {
     var body: some View {
         VStack(spacing: 40) {
             HStack(spacing: 40) {
-                entry(meal: .breakfast)
-                entry(meal: .dinner)
+                entry(mealType: .breakfast)
+                entry(mealType: .dinner)
             }
 
             HStack(spacing: 40) {
-                entry(meal: .lunch)
-                entry(meal: .snack)
+                entry(mealType: .lunch)
+                entry(mealType: .snack)
             }
         }
         .frame(maxWidth: .infinity)
     }
 
-    func entry(meal: Meal.Kind) -> some View {
-        return NavigationLink(destination: FilteredMealListView(kind: meal)) {
+    func entry(mealType: Meal.Kind) -> some View {
+        ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .center) {
-                Text(meal.rawValue)
+                Text(mealType.rawValue)
                     .bold()
                 ZStack {
                     Circle()
-                        .stroke(meal.color.opacity(0.1), lineWidth: lineWidth)
+                        .stroke(mealType.color.opacity(0.1), lineWidth: lineWidth)
                         .frame(width: 80, height: 80)
 
                     Circle()
-                        .stroke(meal.color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                        .stroke(mealType.color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                         .frame(width: 80, height: 80)
 
-                    meal.image
+                    mealType.image
                         .resizable()
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                 }
             }
+
+            NavigationLink(destination: MealSearchView(mealType: mealType)) {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(.white)
+                    .frame(width: 30, height: 30)
+                    .background(Color("Green"))
+                    .clipShape(Circle())
+                    .padding(6)
+                    .offset(x: -69, y: 38)
+            }
         }
+        .buttonStyle(.plain)
+        .frame(width: 100, height: 120)
     }
 }
 
 #Preview {
-    MealCategoryView()
+    MealCategoryView(date: Date())
 }

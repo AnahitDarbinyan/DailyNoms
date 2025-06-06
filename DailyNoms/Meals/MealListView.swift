@@ -15,7 +15,7 @@ struct MealListView: View {
     var body: some View {
         NavigationStack {
             List(meals) { section in
-                Section(section.id.formatted(.relative(presentation: .named))) {
+                Section(section.id.relative) {
                     let meals = section.sorted { $0.date < $1.date }
                     ForEach(meals) { meal in
                         NavigationLink(destination: MealDetailView(meal: meal)) {
