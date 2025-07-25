@@ -125,7 +125,7 @@ struct ContentView: View {
                 NavigationStack {
                     TabView {
                         Tab("Home", systemImage: "house") {
-                            UserInfoFormView()
+                            HomeView()
                         }
                         Tab("Meals", systemImage: "fork.knife") {
                             MealListView()
