@@ -5,76 +5,105 @@
 //  Created by Anahit Darbinyan on 30.05.25.
 //
 
+import PhotosUI
 import SwiftData
 import SwiftUI
 
 struct DishDetailView: View {
     var dish: Dish
     @Environment(\.modelContext) private var modelContext: ModelContext
+    @State var imageSelection: PhotosPickerItem? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
+            if let image = dish.image {
+                #if canImport(UIKit)
+                    let uiImage = UIImage(data: image)!
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                #elseif canImport(AppKit)
+                    let nsImage = NSImage(data: image)!
+                    Image(nsImage: nsImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                #endif
+
+            } else {
+                PhotosPicker(selection: $imageSelection,
+                             matching: .images,
+                             photoLibrary: .shared())
+                {
+                    Image(systemName: "pencil.circle.fill")
+                        .symbolRenderingMode(.multicolor)
+                        .font(.system(size: 30))
+                        .foregroundColor(.accentColor)
+                }
+                .buttonStyle(.borderless)
+                .onChange(of: imageSelection, loadImage)
+            }
             Text(dish.name)
                 .font(.largeTitle)
                 .bold()
 
-            Group {
-                Text("Calories: \(dish.calories)")
+            HStack(spacing: 20) {
+//                CircularCalorieView(carbs: dish.carbs, protein: dish.protein, fat: dish.fat)
 
-                if let fat = dish.fat {
-                    Text("Fat: \(String(format: "%.1f", fat)) g")
+                VStack(alignment: .leading, spacing: 8) {
+                    NutrientRow(color: .red, name: "Carbs", value: dish.carbs, percentage: 37.2)
+
+                    NutrientRow(color: .orange, name: "Protein", value: dish.protein, percentage: 18.8)
+
+                    NutrientRow(color: .blue, name: "Fat", value: dish.fat, percentage: 44.0)
                 }
-                if let saturatedFat = dish.saturatedFat {
-                    Text("Saturated Fat: \(String(format: "%.1f", saturatedFat)) g")
-                }
-                if let cholesterol = dish.cholesterol {
-                    Text("Cholesterol: \(String(format: "%.1f", cholesterol)) mg")
-                }
-                if let sodium = dish.sodium {
-                    Text("Sodium: \(String(format: "%.1f", sodium)) mg")
-                }
-                if let carbs = dish.carbs {
-                    Text("Carbohydrates: \(String(format: "%.1f", carbs)) g")
-                }
+            }
+            .padding(.horizontal)
+
+            Divider()
+
+            VStack(alignment: .leading, spacing: 12) {
                 if let fiber = dish.fiber {
-                    Text("Fiber: \(String(format: "%.1f", fiber)) g")
+                    InfoLine(title: "Fiber", value: fiber, unit: "g")
                 }
                 if let sugar = dish.sugar {
-                    Text("Sugar: \(String(format: "%.1f", sugar)) g")
+                    InfoLine(title: "Sugar", value: sugar, unit: "g")
                 }
-                if let protein = dish.protein {
-                    Text("Protein: \(String(format: "%.1f", protein)) g")
+                if let saturatedFat = dish.saturatedFat {
+                    InfoLine(title: "Saturated Fat", value: saturatedFat, unit: "g")
                 }
-            }
-            .font(.title3)
-
-            if let servingSize = dish.servingSize {
-                Text("Serving Size: \(servingSize)")
-                    .font(.headline)
-                    .padding(.top)
-            }
-            if let vitamins = dish.vitamins, !vitamins.isEmpty {
-                VStack(alignment: .leading) {
-                    Text("Vitamins:")
-                        .font(.headline)
+                if let cholesterol = dish.cholesterol {
+                    InfoLine(title: "Cholesterol", value: cholesterol, unit: "mg")
+                }
+                if let sodium = dish.sodium {
+                    InfoLine(title: "Sodium", value: sodium, unit: "mg")
+                }
+                if let vitamins = dish.vitamins {
                     ForEach(vitamins.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
-                        Text("\(key): \(String(format: "%.1f", value))% DV")
+                        InfoLine(title: key, value: value, unit: "mg")
                     }
                 }
-                .padding(.top)
-            }
-            if let minerals = dish.minerals, !minerals.isEmpty {
-                VStack(alignment: .leading) {
-                    Text("Minerals:")
-                        .font(.headline)
+                if let minerals = dish.minerals {
                     ForEach(minerals.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
-                        Text("\(key): \(String(format: "%.1f", value))% DV")
+                        InfoLine(title: key, value: value, unit: "mg")
                     }
                 }
-                .padding(.top)
             }
+            .padding(.top)
+
+            Text("Serving Size: \(dish.servingSize)")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .padding(.top, 12)
+
+            Text("Serving Type: \(dish.servingType)")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .padding(.top, 8)
+
             if let user = dish.user {
-                Text("Added by: \(user.name)")
+                Text("Added)")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .padding(.top, 20)
@@ -87,6 +116,26 @@ struct DishDetailView: View {
             } label: {
                 Image(systemName: dish.favorite ? "heart.fill" : "heart")
             }
+        }
+        .padding()
+    }
+
+    func loadImage() {
+        Task {
+            guard let data = try await imageSelection?.loadTransferable(type: Data.self) else { return }
+            #if canImport(UIKit)
+                guard let imageData = UIImage(data: data)?.pngData() else { return }
+            #elseif canImport(AppKit)
+                guard let nsImage = NSImage(data: data)? else { return }
+                guard let cgImage = nsImage.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+                    return nil
+                }
+
+                let bitmapRepresentation = NSBitmapImageRep(cgImage: cgImage)
+                let imageData = bitmapRepresentation.representation(using: .png, properties: [:])
+
+            #endif
+            dish.image = imageData
         }
     }
 }
@@ -103,7 +152,7 @@ struct DishDetailView: View {
         fiber: 4.0,
         sugar: 5.0,
         protein: 30.0,
-        vitamins: ["Vitamin A": 20.0, "Vitamin C": 15.0], minerals: ["Calcium": 8.0, "Iron": 10.0], servingSize: "1 bowl", mealEntries: [],
+        vitamins: ["Vitamin A": 20.0, "Vitamin C": 15.0], minerals: ["Calcium": 8.0, "Iron": 10.0], servingSize: 350.0, servingType: .bowl
     )
     DishDetailView(dish: sampleDish)
 }

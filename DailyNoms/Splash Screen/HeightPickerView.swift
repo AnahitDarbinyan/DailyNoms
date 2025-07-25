@@ -9,11 +9,21 @@ import AudioUnit
 import SwiftUI
 
 struct HeightPickerView: View {
-    @State var offset: CGFloat = 0
+    static var startHeight: Double = 130.0
+    @Binding var height: Double
+    @State var offset: CGFloat
     var onNext: () -> Void
-    let startHeight = 120
+    var onBack: () -> Void = {}
     let endHeight = 250
     let step = 10
+
+    init(onNext: @escaping () -> Void, height: Binding<Double>, onBack: @escaping () -> Void) {
+        let progress = (height.wrappedValue - Self.startHeight) / 2.0
+        offset = CGFloat(progress * 20.0)
+        self.onNext = onNext
+        _height = height
+        self.onBack = onBack
+    }
 
     var body: some View {
         VStack(spacing: 15) {
@@ -36,41 +46,9 @@ struct HeightPickerView: View {
 
             let pickerCount = 13
 
-            CustomSlider(pickerCount: pickerCount, offset: $offset, content: {
-                HStack(spacing: 0) {
-                    ForEach(1 ... pickerCount, id: \.self) { index in
-                        VStack {
-                            Rectangle()
-                                .fill(Color.gray)
-                                .frame(width: 1, height: 30)
-                            Text("\(110 + (index * step))")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.5)
-                        }
-                        .frame(width: 20)
-
-                        ForEach(1 ... 4, id: \.self) { _ in
-                            Rectangle()
-                                .fill(Color.gray)
-                                .frame(width: 1, height: 15)
-                                .frame(width: 20)
-                        }
-                    }
-                    VStack {
-                        Rectangle()
-                            .fill(Color.gray)
-                            .frame(width: 1, height: 30)
-                        Text("\(90 + (pickerCount * 10))")
-                            .font(.system(size: 8))
-                            .foregroundColor(.gray)
-                    }
-                    .frame(width: 25)
-                }
-
-            })
-
+            CustomSliderHeight(pickerCount: pickerCount, offset: $offset) {
+                tickMarks(pickerCount: pickerCount)
+            }
             .frame(height: 50)
             .overlay(
                 Rectangle()
@@ -104,17 +82,141 @@ struct HeightPickerView: View {
                 .scaleEffect(1)
                 .offset(y: -getRect().height / 2.4)
         )
+        BackButton(action: onBack)
+            .padding(.top, 40)
+            .padding(.leading, 20)
     }
 
     func getHeight() -> String {
-        let startHeight = 120
+        let startHeight = 130
         let progress = offset / 20
         return "\(startHeight + (Int(progress) * 2))"
+    }
+
+    @ViewBuilder
+    func majorTick(at index: Int) -> some View {
+        VStack {
+            Rectangle()
+                .fill(Color.gray)
+                .frame(width: 1, height: 30)
+            Text("\(Int(Self.startHeight + Double(index * step)))")
+                .font(.caption)
+                .foregroundColor(.gray)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+        }
+        .frame(width: 20)
+    }
+
+    @ViewBuilder
+    func minorTick() -> some View {
+        Rectangle()
+            .fill(Color.gray)
+            .frame(width: 1, height: 15)
+            .frame(width: 20)
+    }
+
+    @ViewBuilder
+    func endTick(pickerCount: Int) -> some View {
+        VStack {
+            Rectangle()
+                .fill(Color.gray)
+                .frame(width: 1, height: 30)
+            Text("\(100 + (pickerCount * 10))")
+                .font(.system(size: 8))
+                .foregroundColor(.gray)
+        }
+        .frame(width: 25)
+    }
+
+    @ViewBuilder
+    func tickMarks(pickerCount: Int) -> some View {
+        HStack(spacing: 0) {
+            ForEach(0 ..< pickerCount, id: \.self) { index in
+                majorTick(at: index)
+                ForEach(1 ... 4, id: \.self) { _ in
+                    minorTick()
+                }
+            }
+            endTick(pickerCount: pickerCount)
+        }
     }
 }
 
 struct HeightPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        HeightPickerView(onNext: {})
+        HeightPickerView(onNext: {}, height: .constant(130), onBack: {})
+    }
+}
+
+struct CustomSliderHeight<Content: View>: UIViewRepresentable {
+    var content: Content
+    @Binding var offset: CGFloat
+    var pickerCount: Int
+
+    init(pickerCount: Int, offset: Binding<CGFloat>, @ViewBuilder content: @escaping () -> Content) {
+        self.content = content()
+        _offset = offset
+        self.pickerCount = pickerCount
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return CustomSliderHeight.Coordinator(parent: self)
+    }
+
+    func makeUIView(context: Context) -> UIScrollView {
+        let scrollView = UIScrollView()
+        let swiftUIView = UIHostingController(rootView: content).view!
+
+        let width = CGFloat((pickerCount * 5) * 20) + (getRect().width - 30)
+        swiftUIView.frame = CGRect(x: 0, y: 0, width: width, height: 50)
+        scrollView.contentSize = swiftUIView.frame.size
+        scrollView.addSubview(swiftUIView)
+        scrollView.bounces = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.delegate = context.coordinator
+
+        let initialOffset = (width - getRect().width) / 2
+        scrollView.contentOffset.x = initialOffset + CGFloat(offset)
+
+        return scrollView
+    }
+
+    func updateUIView(_: UIScrollView, context _: Context) {}
+
+    class Coordinator: NSObject, UIScrollViewDelegate {
+        var parent: CustomSliderHeight
+
+        init(parent: CustomSliderHeight) {
+            self.parent = parent
+        }
+
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            parent.offset = scrollView.contentOffset.x
+        }
+
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            let offset = scrollView.contentOffset.x
+
+            let value = (offset / 20).rounded(.toNearestOrAwayFromZero)
+
+            scrollView.setContentOffset(CGPoint(x: value * 20, y: 0), animated: false)
+
+            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+            AudioServicesPlayAlertSound(1157)
+        }
+
+        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+            if !decelerate {
+                let offset = scrollView.contentOffset.x
+
+                let value = (offset / 20).rounded(.toNearestOrAwayFromZero)
+
+                scrollView.setContentOffset(CGPoint(x: value * 20, y: 0), animated: false)
+
+                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+                AudioServicesPlayAlertSound(1157)
+            }
+        }
     }
 }

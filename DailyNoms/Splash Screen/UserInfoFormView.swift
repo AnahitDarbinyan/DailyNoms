@@ -21,7 +21,7 @@ struct UserInfoFormView: View {
     @State private var screen: Screen = .name
     @State var name = ""
     @State var age = 0
-    @State var weight = 0.0
+    @State var weight = 40.0
     @State var height = 0.0
     @State var gender = User.Gender.female
     @State var activitylevel = Snapshot.ActivityLevel.extraActive
@@ -31,79 +31,63 @@ struct UserInfoFormView: View {
         VStack {
             switch screen {
             case .name:
-                NameInputView(onNext: {
+                NameInputView(name: $name, onNext: {
                     screen = .age
                 })
             case .age:
-                LabeledContent {
-                    TextField("Age", value: $age, format: .number)
-                } label: {
-                    Text("Age")
-                }
-                Button(action: {
+                AgePickerView(selectedAge: $age, onNext: {
                     screen = .weight
-                }) {
-                    Text("Next")
-                }
+                }, onBack: { screen = .name })
             case .weight:
-                WeightPickerView(onNext: {
+                WeightPickerView(weight: $weight, onNext: {
                     screen = .height
-                })
+                }, onBack: { screen = .age })
             case .height:
-                LabeledContent {
-                    TextField("Height", value: $height, format: .number)
-                } label: {
-                    Text("Height")
-                }
-                Button(action: {
+                HeightPickerView(onNext: {
                     screen = .gender
-                }) {
-                    Text("Next")
-                }
+                }, height: $height, onBack: { screen = .weight })
             case .gender:
-                LabeledContent {
-                    Picker("Gender", selection: $gender) {
-                        ForEach(User.Gender.allCases, id: \.self) { gender in
-                            Text(gender.rawValue).tag(gender)
-                        }
-                    }
-                } label: {
-                    Text("Gender")
-                }
-                Button(action: {
+                GenderSelectionView(gender: $gender, onNext: {
                     screen = .activitylevel
-                }) {
-                    Text("Next")
-                }
+                }, onBack: { screen = .height })
             case .activitylevel:
-                LabeledContent {
-                    Picker("Activity Level", selection: $activitylevel) {
-                        ForEach(Snapshot.ActivityLevel.allCases, id: \.self) { activitylevel in
-                            Text(activitylevel.rawValue).tag(activitylevel)
-                        }
-                    }
-                } label: {
-                    Text("Activity Level")
-                }
-                Button(action: {
-                    saveUserInfo()
-                }) {
-                    Text("Submit")
-                }
+                ActivityLevelSelectorView(
+                    activitylevel: $activitylevel, onSubmit: {
+                        saveUserInfo()
+                    },
+                    onBack: { screen = .gender }
+                )
             }
         }
     }
 
     private func saveUserInfo() {
         let user = User(name: name, age: age, gender: gender)
-        let snapshot = Snapshot(weight: weight, height: height, activityLevel: activitylevel, user: nil)
-        modelContext.insert(snapshot)
+        let snapshot = Snapshot(weight: weight, height: height, activityLevel: activitylevel, user: user)
         user.snapshots.append(snapshot)
+
         modelContext.insert(user)
-        try! modelContext.save()
+        modelContext.insert(snapshot)
+
+        try? modelContext.save()
     }
 }
 
 #Preview {
     UserInfoFormView()
 }
+
+//                LabeledContent {
+//                    Picker("Gender", selection: $gender) {
+//                        ForEach(User.Gender.allCases, id: \.self) { gender in
+//                            Text(gender.rawValue).tag(gender)
+//                        }
+//                    }
+//                } label: {
+//                    Text("Gender")
+//                }
+//                Button(action: {
+//                    screen = .activitylevel
+//                }) {
+//                    Text("Next")
+//                }

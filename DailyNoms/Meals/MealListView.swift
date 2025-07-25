@@ -10,7 +10,8 @@ import SwiftData
 import SwiftUI
 
 struct MealListView: View {
-    @SectionedQuery(\.date.morning) var meals: SectionedResults<Date, Meal>
+    @SectionedQuery(\.date.morning, sort: [SortDescriptor(\Meal.date, order: .reverse)])
+    var meals: SectionedResults<Date, Meal>
 
     var body: some View {
         NavigationStack {

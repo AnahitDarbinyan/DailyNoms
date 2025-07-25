@@ -12,130 +12,166 @@ struct EditProfileView: View {
     @State private var isEditing = false
     @Query var users: [User]
     var user: User { users.first! }
-    @State var weight: Double = 0.0
-    @State var height: Double = 0.0
-    @State var activityLevel: Snapshot.ActivityLevel = .extraActive
+    @State private var editedName: String = ""
+    @State private var editedAge: String = ""
+    @State private var editedWeight: String = ""
+    @State private var editedHeight: String = ""
+    @State private var editedActivityLevel: Snapshot.ActivityLevel = .extraActive
+    @State private var editedGender: User.Gender = .male
     @Environment(\.modelContext) var modelContext: ModelContext
 
     var body: some View {
-        Form {
+        List {
             Section(header: Text("User Info")) {
                 HStack {
                     Text("Name")
                     Spacer()
-                    Text(user.name).foregroundColor(.gray)
+                    if isEditing {
+                        TextField("Name", text: $editedName)
+                            .multilineTextAlignment(.trailing)
+                            .foregroundColor(.blue)
+                    } else {
+                        Text(user.name)
+                            .foregroundColor(.gray)
+                    }
                 }
 
                 HStack {
                     Text("Age")
                     Spacer()
-                    Text("\(user.age)").foregroundColor(.gray)
+                    if isEditing {
+                        TextField("Age", text: $editedAge)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                            .foregroundColor(.blue)
+                    } else {
+                        Text("\(user.age)")
+                            .foregroundColor(.gray)
+                    }
                 }
 
                 HStack {
                     Text("Gender")
                     Spacer()
-                    Text(user.gender.rawValue.capitalized).foregroundColor(.gray)
+                    if isEditing {
+                        Picker("", selection: $editedGender) {
+                            ForEach(User.Gender.allCases, id: \.self) { gender in
+                                Text(gender.rawValue.capitalized).tag(gender)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                    } else {
+                        Text(user.gender.rawValue.capitalized)
+                            .foregroundColor(.gray)
+                    }
                 }
             }
 
             Section(header: Text("Health Info")) {
-                NavigationLink {
-                    EditValueView(label: "Weight", value: $weight, suffix: "kg")
-                        .onChange(of: weight) {
-                            let snapshot = Snapshot(weight: weight, height: user.snapshot.height, activityLevel: user.snapshot.activityLevel, user: user)
-                            modelContext.insert(snapshot)
-                            try? modelContext.save()
-                        }
-                } label: {
-                    HStack {
-                        Text("Weight")
-                        Spacer()
-                        Text("\(user.snapshot.weight, specifier: "%.1f") kg").foregroundColor(.gray)
+                HStack {
+                    Text("Weight")
+                    Spacer()
+                    if isEditing {
+                        TextField("Weight", text: $editedWeight)
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                            .foregroundColor(.blue)
+                        Text("kg")
+                            .foregroundColor(.gray)
+                    } else {
+                        Text("\(user.snapshot.weight, specifier: "%.1f") kg")
+                            .foregroundColor(.gray)
                     }
                 }
 
-                NavigationLink {
-                    EditValueView(label: "Height", value: $height, suffix: "cm")
-                        .onChange(of: height) {
-                            let snapshot = Snapshot(weight: user.snapshot.weight, height: height, activityLevel: user.snapshot.activityLevel, user: user)
-                            modelContext.insert(snapshot)
-                            try? modelContext.save()
-                        }
-                } label: {
-                    HStack {
-                        Text("Height")
-                        Spacer()
-                        Text("\(user.snapshot.height, specifier: "%.1f") cm").foregroundColor(.gray)
+                HStack {
+                    Text("Height")
+                    Spacer()
+                    if isEditing {
+                        TextField("Height", text: $editedHeight)
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                            .foregroundColor(.blue)
+                        Text("cm")
+                            .foregroundColor(.gray)
+                    } else {
+                        Text("\(user.snapshot.height, specifier: "%.1f") cm")
+                            .foregroundColor(.gray)
                     }
                 }
 
-                NavigationLink {
-                    EditActivityLevelView(level: $activityLevel)
-                        .onChange(of: activityLevel) {
-                            let snapshot = Snapshot(weight: user.snapshot.weight, height: user.snapshot.height, activityLevel: activityLevel, user: user)
-                            modelContext.insert(snapshot)
-                            try? modelContext.save()
+                HStack {
+                    Text("Activity Level")
+                    Spacer()
+                    if isEditing {
+                        Picker("", selection: $editedActivityLevel) {
+                            ForEach(Snapshot.ActivityLevel.allCases, id: \.self) { level in
+                                Text(level.rawValue.capitalized).tag(level)
+                            }
                         }
-                } label: {
-                    HStack {
-                        Text("Activity Level")
-                        Spacer()
-                        Text(user.snapshot.activityLevel.rawValue.capitalized).foregroundColor(.gray)
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                    } else {
+                        Text(user.snapshot.activityLevel.rawValue.capitalized)
+                            .foregroundColor(.gray)
                     }
                 }
             }
         }
-        .navigationTitle("Edit Profile")
+        .navigationTitle("Profile")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if isEditing {
+                    Button("Done") {
+                        saveChanges()
+                        isEditing.toggle()
+                    }
+                    .bold()
+                } else {
+                    Button("Edit") {
+                        loadCurrentValues()
+                        isEditing.toggle()
+                    }
+                }
+            }
+        }
     }
-}
 
-struct EditValueView: View {
-    let label: String
-    @Binding var value: Double
-    let suffix: String
-    @Environment(\.dismiss) var dismiss
-
-    var body: some View {
-        Form {
-            Section(header: Text("Edit \(label)")) {
-                TextField("Enter \(label)", value: $value, formatter: NumberFormatter())
-                    .keyboardType(.decimalPad)
-            }
-
-            Button("Save") {
-                dismiss()
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-        }
-        .navigationTitle("Edit \(label)")
+    private func loadCurrentValues() {
+        editedName = user.name
+        editedAge = "\(user.age)"
+        editedGender = user.gender
+        editedWeight = String(format: "%.1f", user.snapshot.weight)
+        editedHeight = String(format: "%.1f", user.snapshot.height)
+        editedActivityLevel = user.snapshot.activityLevel
     }
-}
 
-struct EditActivityLevelView: View {
-    @Binding var level: Snapshot.ActivityLevel
-    @Environment(\.dismiss) var dismiss
+    private func saveChanges() {
+        // Update user info
+        user.name = editedName
+        user.age = Int(editedAge) ?? user.age
+        user.gender = editedGender
 
-    var body: some View {
-        Form {
-            Picker("Activity Level", selection: $level) {
-                ForEach(Snapshot.ActivityLevel.allCases, id: \.self) { option in
-                    Text(option.rawValue.capitalized).tag(option)
-                }
-            }
-            .pickerStyle(.inline)
+        // Create new snapshot
+        let newWeight = Double(editedWeight) ?? user.snapshot.weight
+        let newHeight = Double(editedHeight) ?? user.snapshot.height
 
-            Button("Save") {
-                dismiss()
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-        }
-        .navigationTitle("Activity Level")
+        let snapshot = Snapshot(
+            weight: newWeight,
+            height: newHeight,
+            activityLevel: editedActivityLevel,
+            user: user
+        )
+        modelContext.insert(snapshot)
+        try? modelContext.save()
     }
 }
 
 #Preview {
-    EditProfileView()
+    NavigationStack {
+        EditProfileView()
+    }
 }
 
 /*

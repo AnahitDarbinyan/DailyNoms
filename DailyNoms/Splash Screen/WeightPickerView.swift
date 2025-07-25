@@ -9,108 +9,122 @@ import AudioUnit
 import SwiftUI
 
 struct WeightPickerView: View {
-    @State var offset: CGFloat = 0
+    static var startWeight: Double = 40.0
+    @Binding var weight: Double
+    @State var offset: CGFloat
     var onNext: () -> Void
+    var onBack: () -> Void = {}
+
+    init(weight: Binding<Double>, onNext: @escaping () -> Void, onBack: @escaping () -> Void) {
+        _weight = weight
+        offset = CGFloat(weight.wrappedValue) - CGFloat(Self.startWeight)
+        self.onNext = onNext
+        self.onBack = onBack
+    }
 
     var body: some View {
-        VStack(spacing: 15) {
-            Image("WeightPage")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 440, height: 400)
-                .padding(.top, 40)
+        ZStack {
+            VStack(spacing: 15) {
+                Image("WeightPage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 440, height: 400)
+                    .padding(.top, 40)
 
-            Spacer(minLength: 0)
+                Spacer(minLength: 0)
 
-            Text("Weight")
-                .font(.system(size: 34, weight: .bold, design: .serif))
-                .foregroundStyle(Color("MidnightPurple"))
+                Text("Weight")
+                    .font(.system(size: 34, weight: .bold, design: .serif))
+                    .foregroundStyle(Color("MidnightPurple"))
 
-            Text("\(getWeight()) Kg")
-                .font(.system(size: 24, weight: .bold, design: .rounded))
-                .fontWeight(.heavy)
-                .foregroundColor(.gray)
+                Text("\(getWeight()) Kg")
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.gray)
 
-            let pickerCount = 9
+                let pickerCount = 9
 
-            CustomSlider(pickerCount: pickerCount, offset: $offset, content: {
-                HStack(spacing: 0) {
-                    ForEach(1 ... pickerCount, id: \.self) { index in
+                CustomSlider(pickerCount: pickerCount, offset: $offset, content: {
+                    HStack(spacing: 0) {
+                        ForEach(0 ..< pickerCount, id: \.self) { index in
+                            VStack {
+                                Rectangle()
+                                    .fill(Color.gray)
+                                    .frame(width: 1, height: 30)
+                                Text("\(Int(Self.startWeight + (Double(index) * 10)))")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(width: 30)
+
+                            ForEach(1 ... 4, id: \.self) { _ in
+                                Rectangle()
+                                    .fill(Color.gray)
+                                    .frame(width: 1, height: 15)
+                                    .frame(width: 30)
+                            }
+                        }
                         VStack {
                             Rectangle()
                                 .fill(Color.gray)
                                 .frame(width: 1, height: 30)
-                            Text("\(30 + (index * 10))")
+                            Text("\(Int(Self.startWeight + (Double(pickerCount) * 10)))")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        .frame(width: 20)
-
-                        ForEach(1 ... 4, id: \.self) { _ in
-                            Rectangle()
-                                .fill(Color.gray)
-                                .frame(width: 1, height: 15)
-                                .frame(width: 20)
-                        }
+                        .frame(width: 30)
                     }
-                    VStack {
-                        Rectangle()
-                            .fill(Color.gray)
-                            .frame(width: 1, height: 30)
-                        Text("\(30 + (pickerCount * 10))")
-                            .font(.system(size: 8))
-                            .foregroundColor(.gray)
-                    }
-                    .frame(width: 25)
-                }
 
-            })
+                })
 
-            .frame(height: 50)
-            .overlay(
-                Rectangle()
-                    .fill(Color.gray)
-                    .frame(width: 1, height: 50)
-                    .offset(x: -1.5, y: -30)
+                .frame(height: 50)
+                .overlay(
+                    Rectangle()
+                        .fill(Color.gray)
+                        .frame(width: 1, height: 50)
+                        .offset(x: -4, y: -30)
+                )
+                .padding(.vertical)
+
+                Button(action: {
+                    onNext()
+                }, label: {
+                    Text("Continue")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 60)
+                        .background(Color("MidnightPurple"))
+                        .clipShape(Capsule())
+                        .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
+                        .shadow(color: Color.purple.opacity(0.2), radius: 10, x: 0, y: 2)
+                })
+                .padding(.top, 20)
+                .padding(.bottom, 10)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                Circle()
+                    .fill(Color("MidnightPurple"))
+                    .scaleEffect(1.5)
+                    .offset(y: -getRect().height / 2.4)
             )
-            .padding()
-
-            Button(action: {
-                onNext()
-            }, label: {
-                Text("Continue")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.vertical, 12)
-                    .padding(.horizontal, 60)
-                    .background(Color("MidnightPurple"))
-                    .clipShape(Capsule())
-                    .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
-                    .shadow(color: Color.purple.opacity(0.2), radius: 10, x: 0, y: 2)
-            })
-            .padding(.top, 20)
-            .padding(.bottom, 10)
+            BackButton(action: onBack)
+                .padding(.top, 40)
+                .padding(.leading, 20)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            Circle()
-                .fill(Color("MidnightPurple"))
-                .scaleEffect(1.5)
-                .offset(y: -getRect().height / 2.4)
-        )
     }
 
     func getWeight() -> String {
-        let startWeight = 30
-        let progress = offset / 20
-        return "\(startWeight + (Int(progress) * 2))"
+        let progress = offset / 30
+        return (Self.startWeight + progress * 2).formatted()
     }
 }
 
 struct WeightPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        WeightPickerView(onNext: {})
+        WeightPickerView(weight: .constant(40), onNext: {}, onBack: {})
     }
 }
 
@@ -136,13 +150,10 @@ struct CustomSlider<Content: View>: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIScrollView {
         let scrollView = UIScrollView()
-
         let swiftUIView = UIHostingController(rootView: content).view!
 
-        let width = CGFloat((pickerCount * 5) * 20) + (getRect().width - 30)
-
+        let width = CGFloat((pickerCount * 5) * 30) + (getRect().width + 30)
         swiftUIView.frame = CGRect(x: 0, y: 0, width: width, height: 50)
-
         scrollView.contentSize = swiftUIView.frame.size
         scrollView.addSubview(swiftUIView)
         scrollView.bounces = false
@@ -167,9 +178,9 @@ struct CustomSlider<Content: View>: UIViewRepresentable {
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
             let offset = scrollView.contentOffset.x
 
-            let value = (offset / 20).rounded(.toNearestOrAwayFromZero)
+            let value = (offset / 30).rounded(.toNearestOrAwayFromZero)
 
-            scrollView.setContentOffset(CGPoint(x: value * 20, y: 0), animated: false)
+            scrollView.setContentOffset(CGPoint(x: value * 30, y: 0), animated: false)
 
             AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
             AudioServicesPlayAlertSound(1157)
@@ -179,9 +190,9 @@ struct CustomSlider<Content: View>: UIViewRepresentable {
             if !decelerate {
                 let offset = scrollView.contentOffset.x
 
-                let value = (offset / 20).rounded(.toNearestOrAwayFromZero)
+                let value = (offset / 30).rounded(.toNearestOrAwayFromZero)
 
-                scrollView.setContentOffset(CGPoint(x: value * 20, y: 0), animated: false)
+                scrollView.setContentOffset(CGPoint(x: value * 30, y: 0), animated: false)
 
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 AudioServicesPlayAlertSound(1157)

@@ -1,108 +1,342 @@
-Chicken Breast (cooked), 165
-Beef (cooked), 250
-Cooked Rice, 130
-Boiled Potatoes, 77
-Raw Broccoli, 34
+Scrambled eggs, 148
+Oatmeal (cooked), 71
+Bacon, 541
+Greek yogurt (plain), 59
+Granola bar, 400
+Fruit smoothie, 150
+Cereal with milk, 120
+Grilled chicken breast, 165
+Cheeseburger, 270
+Caesar salad (with dressing), 180
+Spaghetti with marinara sauce, 130
+Cheese pizza, 266
+Fried rice, 180
+Tuna sandwich, 200
+BLT sandwich, 250
+Chicken soup, 40
+Veggie burger, 215
+Steak (grilled), 250
+Grilled salmon, 206
+Mashed potatoes, 90
+Roasted vegetables, 100
+Macaroni and cheese, 140
+Beef chili, 120
+Baked potato, 160
+Caesar wrap, 220
+Veggie stir-fry, 110
 Apple, 52
 Banana, 89
-Salmon (cooked), 206
-Boiled Egg, 155
-Avocado, 160
-White Rice (cooked), 130
-Lentils (cooked), 116
-Almonds, 575
-Cheddar Cheese, 402
-Low-Fat Yogurt, 61
-White Bread, 265
-Olive Oil, 884
+Mixed nuts, 607
+Potato chips, 536
+Chocolate chip cookie, 160
+Ice cream, 207
+Air-popped popcorn, 93
+Cheese sticks, 280
+Protein bar, 350
+Yogurt parfait, 120
+Meatloaf, 230
+Chicken Alfredo, 200
+Fish and chips, 260
+Shrimp cocktail, 99
+Veggie omelette, 153
+Quiche, 220
+Hot dog (with bun), 290
+French fries, 312
+Nachos with cheese, 450
+Meatballs (beef), 250
+Grilled turkey breast, 135
+Beef stew, 150
+Vegetable soup, 40
+Lentil soup, 116
+Baked chicken wings, 203
+BBQ ribs, 290
+Chicken curry, 180
+Beef burger patty, 260
+Chicken nuggets, 296
+Fish fillet (baked), 190
+Shrimp stir-fry, 140
+Tofu stir-fry, 120
+Pasta primavera, 160
+Tuna salad, 180
+Chicken fajitas, 160
+Vegetable lasagna, 160
+Baked ziti, 190
+Ranch dressing, 350
+Hummus, 170
+Guacamole, 160
+Salsa (tomato), 30
+Peanut butter, 188
+Almond butter, 196
+Hard-boiled egg, 78
+Cottage cheese (low fat), 90
+Mozzarella cheese, 85
+Cheddar cheese, 114
+Brie cheese, 95
+Swiss cheese, 108
+Iceberg lettuce, 10
+Spinach (raw), 7
+Broccoli (steamed), 55
+Carrots (raw), 25
+Bell peppers (raw), 24
+Cherry tomatoes, 30
+Cucumber (raw), 8
+Apple pie, 237
+Brownie, 466
+Muffin (blueberry), 377
+Croissant, 406
+Bagel (plain), 250
+Donut (glazed), 452
+French baguette, 270
+White rice (cooked), 130
+Brown rice (cooked), 112
 Quinoa (cooked), 120
-Pasta (cooked), 157
-Oats (dry), 389
-Soy Milk, 54
-Peanut Butter, 588
-Walnuts, 654
-Carrot (raw), 41
-Spinach (raw), 23
-Mushrooms (raw), 22
-Tomato, 18
-Strawberries, 32
-Orange, 47
-Blueberries, 57
-Whole Wheat Bread, 247
-Greek Yogurt, 97
-Hummus, 166
-Dark Chocolate, 546
-Cucumber, 16
-Pork (cooked), 242
-Tuna (canned in water), 116
-Ground Turkey (cooked), 149
-Butter, 717
-Whole Milk, 61
-Skim Milk, 35
-Cheese (Mozzarella), 280
-Popcorn (air-popped), 387
-Cottage Cheese, 98
-Ice Cream (vanilla), 207
-Pizza, 266
-Bacon (cooked), 541
-Shrimp (cooked), 99
-Tilapia (cooked), 129
-Corn (cooked), 96
-Honey, 304
-Maple Syrup, 260
-Almond Milk, 17
-Rice Cakes, 387
-Chia Seeds, 486
-Pumpkin Seeds, 574
-Dates, 277
-Peas (cooked), 84
-Sweet Potato (cooked), 86
-Raisins, 299
-Sunflower Seeds, 584
+Grilled vegetables, 120
+Lasagna, 200
+Meat pie, 270
+Chicken noodle soup, 60
+Vegetable stir-fry, 110
+Baked cod, 150
+Sweet potato fries, 180
+Coleslaw, 150
+Chocolate cake, 370
+Vanilla ice cream, 207
+Cheesecake, 321
+Cookies, 160
+Pretzels, 110
+Popcorn (buttered), 400
+Pancakes, 227
+French toast, 240
+Toast with butter, 150
+Chicken shawarma, 190
+Beef kebab, 260
+Khorovats (Armenian BBQ), 250
+Harissa, 150
+Dolma (stuffed grape leaves), 180
+Basturma (cured beef), 150
+Lavash (flatbread), 250
+Lentil patties, 200
+Ghapama (Armenian pumpkin dish), 130
+Spas (Armenian yogurt soup), 70
+Gata (Armenian sweet bread), 400
+Meatball stew, 180
+Bagel with cream cheese, 300
+Avocado, 160
+Brown bread (whole wheat), 80
+Milk (whole), 150
+Butter, 102
+Honey, 64
+Orange, 62
+Watermelon, 46
+Tomato (raw), 22
+Cauliflower (raw), 25
+Sweet corn (cooked), 132
+Tofu (firm), 76
+Salmon (raw), 208
+Shrimp (raw), 99
+Turkey (roasted), 135
+Ham (cooked), 145
+Pasta (cooked), 131
+Chocolate (dark), 170
+Wine (red), 125
+Beer, 153
+Bagel with lox and cream cheese, 350
+Breakfast burrito, 400
+French onion soup, 250
+Eggplant Parmesan, 320
+Chicken pot pie, 350
+Shrimp scampi, 250
+Veggie sushi roll, 200
+California sushi roll, 250
+Spicy tuna roll, 290
+Chicken teriyaki, 200
+Beef stir-fry, 280
+Pork ribs, 350
+Duck breast, 230
+Crab cakes, 350
+Lobster tail, 135
+Clam chowder, 220
+Gazpacho, 120
+Beef fajitas, 290
+Pulled pork sandwich, 350
+Philly cheesesteak, 450
+Meatball sub, 500
+Chicken sandwich, 400
+Fish tacos, 350
+Vegetable curry, 180
+Lentil dhal, 180
+Pad Thai, 300
+Chicken Pad Thai, 320
+Beef pho, 350
+Spring rolls, 180
+Egg rolls, 200
+Nachos, 700
+Pulled chicken wrap, 350
+Meatloaf sandwich, 400
+Shepherd’s pie, 330
+Baked ziti with sausage, 380
+Chicken parmesan sandwich, 420
+Spinach salad with dressing, 220
+Cobb salad, 350
+Eggplant rollatini, 320
+BBQ chicken pizza, 290
+Pepperoni pizza, 300
+Veggie pizza, 270
+Calzone, 450
+Stromboli, 500
+Meatball calzone, 600
+Chicken fried rice, 350
+Pork fried rice, 400
+Vegetable fried rice, 300
+Sushi combo platter, 500
+Fried chicken sandwich, 450
+BLT wrap, 350
+Buffalo chicken wrap, 420
+Greek gyro, 400
+Shawarma wrap, 390
+Veggie wrap, 320
+Chicken salad sandwich, 350
+Egg salad sandwich, 350
+Ham and cheese sandwich, 400
+Roast beef sandwich, 420
+French baguette sandwich, 430
+Club sandwich, 480
+Turkey sandwich, 350
+BBQ chicken sandwich, 400
+Sloppy Joe, 400
+Chili dog, 420
+Veggie burger with cheese, 350
+Veggie quesadilla, 300
+Cheese quesadilla, 350
+Chicken quesadilla, 400
+Beef quesadilla, 420
+Spaghetti Bolognese, 190
+Meat lasagna, 220
+Risotto, 130
+Chicken tikka masala, 210
+Butter chicken, 240
+Naan bread, 270
+Samosa, 250
+Falafel balls, 320
+Tabouleh, 120
+Dolma, 180
+Moussaka, 230
+Spanakopita, 320
+Goulash, 230
+Pierogi, 220
+Borscht, 70
+Beef stroganoff, 230
+Cabbage rolls, 180
+Chicken schnitzel, 250
+Potato salad, 150
+Greek salad, 120
+Waldorf salad, 210
+Sushi (salmon roll), 140
+Sushi (tuna roll), 130
+Almonds, 579
+Cashews, 553
 Pistachios, 562
-Fried Chicken, 266
-Mashed Potatoes, 65
-Boiled Macaroni, 133
-Roast Potatoes, 154
-Pilaf without Meat, 119
-Fish and Potato Casserole, 112
-Omelette, 119
-Buckwheat Porridge with Butter, 112
-Fish Cutlets, 259
-Cod with Vegetables, 117
-Cod in Breadcrumbs, 373
-Chicken Cutlets, 382
-Chicken with Vegetables, 99
-Stewed Veal, 103
-Pork Stew, 225
-Roast Pork, 278
-Beef and Pork Cutlet, 284
-"Hedgehogs" with Rice, 187
-Baked Potato with Sour Cream, 130
-Potatoes au Gratin, 113
-Pumpkin Cream Soup, 559
-Ramen, 62
-Roast Dinner, 125
-Tuna Empanada, 243
-Lasagna, 147
-Breaded Fish, 178
-Breaded Chicken, 283
-Spring Rolls, 258
-Potato Tortilla, 194
-Grilled Saury, 221
-Chicken Nuggets, 219
-Macaroni Salad, 213
-German Potato Salad, 213
-Flaked Tuna, 212
-Chikuzenni, 211
-Ganmodoki, 228
-Pacific Saury Kabayaki, 225
-Firm Tofu, 216
-Flaked White Tuna in Oil, 230
-Raw Yuba, 231
-Pasta Bolognese, 146
-Pasta Pesto, 314
-Pasta with Tomato Sauce, 341
-Poke Bowl, 368
-Potato Salad, 105
-Potato Soup, 92
+Walnuts, 654
+Hazelnuts, 628
+Pecans, 691
+Macadamia nuts, 718
+Chestnuts (boiled), 131
+Sunflower seeds, 584
+Pumpkin seeds, 559
+Chia seeds, 486
+Flax seeds, 534
+Sesame seeds, 573
+Trail mix, 450
+Energy bar, 380
+Rice cakes, 387
+Rice crackers, 382
+Seaweed snacks, 45
+Beef jerky, 410
+Turkey jerky, 350
+Dried apricots, 241
+Dried figs, 249
+Dried dates, 277
+Raisins, 299
+Prunes, 240
+Dried mango, 319
+Dried pineapple, 350
+Fruit leather, 300
+Pop-Tarts, 392
+Chocolate bar (milk), 535
+Dark chocolate (70% cacao), 598
+White chocolate, 539
+Candy canes, 394
+Jelly beans, 375
+Gummy bears, 340
+Marshmallows, 318
+Toffee, 428
+Caramel, 389
+Taffy, 389
+Licorice, 325
+Pudding (vanilla), 150
+Rice pudding, 130
+Custard, 150
+Flan, 140
+Tiramisu, 240
+Baklava, 430
+Cannoli, 310
+Éclair, 260
+Cupcake, 350
+Danish pastry, 406
+Macaron, 470
+Mochi, 150
+Churros, 450
+Funnel cake, 410
+Pretzel sticks, 380
+Soft pretzel, 370
+Meat sausage (pork), 300
+Chicken sausage, 190
+Salami, 400
+Pepperoni, 504
+Mortadella, 311
+Prosciutto, 270
+Corned beef, 250
+Bologna, 290
+Liver pâté, 320
+Deviled eggs, 230
+Crab meat, 83
+Lobster, 89
+Clams, 148
+Oysters, 68
+Mussels, 172
+Squid (calamari), 92
+Octopus, 82
+Caviar, 264
+Anchovies, 210
+Sardines (in oil), 208
+Mackerel, 205
+Herring, 158
+Smoked salmon, 117
+Bagel chips, 415
+Corn chips, 480
+Tortilla chips, 500
+Potato wedges, 312
+Onion rings, 411
+Fried calamari, 175
+Mozzarella sticks, 300
+Pita bread, 275
+Chapati, 290
+Sourdough bread, 230
+Rye bread, 259
+Multigrain bread, 250
+Focaccia, 350
+Pretzel bun, 320
+Croissant sandwich, 420
+Tuna melt sandwich, 340
+Monte Cristo sandwich, 480
+French dip sandwich, 370
+Reuben sandwich, 420
+Grilled cheese sandwich, 310
+Falafel wrap, 350
+Gyro, 350
+Burrito (beef), 300
+Burrito (bean and cheese), 290
+Chimichanga, 460
+Quesadilla (cheese), 400
+Tacos (beef), 220
+Tacos (fish), 200
+Nachos (beef), 450

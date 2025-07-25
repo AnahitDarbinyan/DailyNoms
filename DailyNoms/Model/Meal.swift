@@ -21,26 +21,27 @@ class Meal: Identifiable {
     var date: Date
     var timestamp: Date
 
-    var calories: Int { dishes.reduce(0) { $0 + $1.calories }}
+    var calories: Int { dishServings.reduce(0) { $0 + $1.calories }}
 
-    var dishes: [Dish] = []
+    var dishServings: [DishServing] = []
+
     var user: User?
     var mealtype: Kind
 
     var totalProtein: Double {
-        dishes.reduce(0) { $0 + ($1.protein ?? 0) }
+        dishServings.reduce(0) { $0 + ($1.protein) }
     }
 
     var totalFat: Double {
-        dishes.reduce(0) { $0 + ($1.fat ?? 0) }
+        dishServings.reduce(0) { $0 + ($1.fat) }
     }
 
     var totalCarbs: Double {
-        dishes.reduce(0) { $0 + ($1.carbs ?? 0) }
+        dishServings.reduce(0) { $0 + ($1.carbs) }
     }
 
-    init(mealtype: Kind = .breakfast, dishes: [Dish], user: User?) {
-        self.dishes = dishes
+    init(mealtype: Kind = .breakfast, dishServings: [DishServing], user: User?) {
+        self.dishServings = dishServings
         self.user = user
         self.mealtype = mealtype
         timestamp = Date()

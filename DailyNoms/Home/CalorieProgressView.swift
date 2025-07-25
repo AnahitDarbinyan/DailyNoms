@@ -10,7 +10,7 @@ import SwiftUI
 struct CalorieProgressView: View {
     var remaining: Int
     var current: Int
-    var color = Color.green
+    var color = Color("Calories")
     var body: some View {
         RadialBarView(progress: Double(remaining) / Double(remaining + current), color: color, lineWidth: 15, radius: 100)
             .overlay {

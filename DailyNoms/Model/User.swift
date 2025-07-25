@@ -23,6 +23,8 @@ class User {
     enum Gender: String, CaseIterable, Codable {
         case male
         case female
+
+        var id: String { rawValue }
     }
 
     @Attribute(.unique) var name: String
